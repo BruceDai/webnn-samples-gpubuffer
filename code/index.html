@@ -1,0 +1,105 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>WebNN Code Editor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="./libs/codemirror/codemirror.css">
+    <link rel="stylesheet" href="./libs/codemirror/railscasts.css">
+    <link href='../common/css/style.css' rel='stylesheet'>
+    <style>
+      .CodeMirror {
+        height: 65vh;
+        font-size: 16px;
+      }
+      #console-log {
+        word-break: break-all;
+        height: 10vh;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark">
+      <a href="../index.html">
+        <div class="logosvg">
+          <img src="../common/img/logo.svg" />
+        </div>
+      </a>
+      <span class="navbar-brand">WebNN Code Editor</span>
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            Examples
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="../image_classification/index.html">Image Classification</a>
+            <a class="dropdown-item" href="../lenet/index.html">Handwritten Digits Classification</a>
+            <a class="dropdown-item" href="../nsnet2/index.html">Noise Suppression (NSNet2)</a>
+            <a class="dropdown-item" href="../rnnoise/index.html">Noise Suppression (RNNoise)</a>
+            <a class="dropdown-item" href="../style_transfer/index.html">Fast Style Transfer</a>
+            <a class="dropdown-item" href="../object_detection/index.html">Object Detection</a>
+            <a class="dropdown-item" href="../semantic_segmentation/index.html">Semantic Segmentation</a>
+            <a class="dropdown-item" href="../code/index.html">WebNN Code Editor</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div class="container" id="container">
+      <div class="row" style="padding-top:2%;">
+        <div class="col-md-12">
+          <div id="code-editor"></div>
+        </div>
+      </div>
+      <div class="row" style="padding-top:5px;">
+        <div class="col-md-4" align="left">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="example-select">Examples</label>
+            </div>
+            <select class="custom-select" id="example-select">
+            </select>
+          </div>
+        </div>
+        <div class="col-md-8" align="right">
+          <button type="button" class="btn btn-info btn-lg" id="edit">Edit</button>
+          <button type="button" class="btn btn-info btn-lg" id="run">Run</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="font-weight-bold">Console log:</div>
+          <div id="console-log" class="text-wrap CodeMirror cm-s-railscasts" style="overflow: auto"></div>
+        </div>
+      </div>
+    </div>
+    <footer class="text-muted text-center text-small mt-5">
+      <p>© 2021 <a href="https://webmachinelearning.github.io/">WebNN API</a></p>
+    </footer>
+    <script>
+      // This workaround is to fix jquery loading issue in electron.
+      // Refer to https://stackoverflow.com/questions/32621988/electron-jquery-is-not-defined.
+      if (typeof module === "object") {
+        window.tempModule = module;
+        module = undefined;
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="./libs/codeSnippets.js"></script>
+    <script src="./libs/codemirror/codemirror.js"></script>
+    <script src="./libs/codemirror/javascript.js"></script>
+    <script src="./libs/codemirror/sublime.js"></script>
+    <script src="https://webmachinelearning.github.io/webnn-polyfill/dist/webnn-polyfill.js" crossorigin="anonymous"></script>
+    <script>
+      // To restore module after loading 3rd-party libraries.
+      if (window.tempModule) module = window.tempModule;
+    </script>
+    <script type="module">
+      import {main} from './main.js';
+      window.onload = async () => {
+        main();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,148 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>WebNN LeNet Example</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="../common/css/style.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark">
+      <a href="../index.html">
+        <div class="logosvg">
+          <img src="../common/img/logo.svg" />
+        </div>
+      </a>
+      <span class="navbar-brand">Handwritten Digits Classification</span>
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            Examples
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="../image_classification/index.html">Image Classification</a>
+            <a class="dropdown-item" href="../lenet/index.html">Handwritten Digits Classification</a>
+            <a class="dropdown-item" href="../nsnet2/index.html">Noise Suppression (NSNet2)</a>
+            <a class="dropdown-item" href="../rnnoise/index.html">Noise Suppression (RNNoise)</a>
+            <a class="dropdown-item" href="../style_transfer/index.html">Fast Style Transfer</a>
+            <a class="dropdown-item" href="../object_detection/index.html">Object Detection</a>
+            <a class="dropdown-item" href="../semantic_segmentation/index.html">Semantic Segmentation</a>
+            <a class="dropdown-item" href="../code/index.html">WebNN Code Editor</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div class="container" id="container">
+      <div class="row align-items-center mt-3 mb-3">
+        <div class="col-md">
+        </div>
+        <div class="col-md-9">
+          <div class="card">
+            <div class="card-body">
+              <div class="btn-group-toggle" data-toggle="buttons" id="deviceBtns">
+                <span class='mr-3'>Device</span>
+                <label class="btn btn-outline-info mr-2">
+                  <input type="radio" name="layout" id="cpu" autocomplete="off">CPU
+                </label>
+                <label class="btn btn-outline-info active">
+                  <input type="radio" name="layout" id="gpu" autocomplete="off" checked>GPU
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md">
+        </div>
+        <div class="col-md-4">
+          <canvas id="visual_canvas" width=280 height=280></canvas>
+        </div>
+        <div class="col-md-5">
+          <div>
+            <h5>Prediction Result:</h5>
+          </div>
+          <div>
+            <table class='table table-sm'>
+              <thead>
+                <tr>
+                  <th scope='col'>#</th>
+                  <th scope='col'>Label</th>
+                  <th scope='col'>Probability</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope='row'>1</th>
+                  <td id='label0'></td>
+                  <td id='prob0'></td>
+                </tr>
+                <tr>
+                  <th scope='row'>2</th>
+                  <td id='label1'></td>
+                  <td id='prob1'></td>
+                </tr>
+                <tr>
+                  <th scope='row'>3</th>
+                  <td id='label2'></td>
+                  <td id='prob2'></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div id='buildTime'></div>
+          </div>
+          <div>
+            <div id='inferenceTime'></div>
+          </div>
+        </div>
+        <div class="col-md">
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md">
+        </div>
+        <div class="col-md-5">
+          <button type="button" class="btn btn-info btn-lg mr-2" id="next">Next</button>
+          <button type="button" class="btn btn-info btn-lg mr-2" id="clear">Clear</button>
+          <button type="button" class="btn btn-info btn-lg" id="predict" disabled>Predict</button>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md">
+        </div>
+      </div>
+    </div>
+    <footer class="text-muted text-center text-small mt-5">
+      <p>© 2021 <a href="https://webmachinelearning.github.io/">WebNN API</a></p>
+    </footer>
+    <script src="../sw.js"></script>
+    <script>
+      // This workaround is to fix jquery loading issue in electron.
+      // Refer to https://stackoverflow.com/questions/32621988/electron-jquery-is-not-defined.
+      if (typeof module === "object") {
+        window.tempModule = module;
+        module = undefined;
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://webmachinelearning.github.io/webnn-polyfill/dist/webnn-polyfill.js" crossorigin="anonymous"></script>
+    <script src="libs/mnist.js"></script>
+    <script>
+      // To restore module after loading 3rd-party libraries.
+      if (window.tempModule) module = window.tempModule;
+    </script>
+    <script type="module">
+      import {main} from './main.js';
+      import {setPolyfillBackend} from '../common/utils.js';
+      window.onload = async () => {
+        await setPolyfillBackend('gpu');
+        await main();
+      }
+    </script>
+  </body>
+</html>

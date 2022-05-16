@@ -1,0 +1,40 @@
+{
+  "name": "webnn-samples",
+  "version": "0.1.0",
+  "description": "The WebNN API samples",
+  "authors": [
+    "Ningxin Hu <ningxin.hu@intel.com>"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webmachinelearning/webnn-samples.git"
+  },
+  "bugs": {
+    "url": "https://github.com/webmachinelearning/webnn-samples/issues"
+  },
+  "homepage": "https://github.com/webmachinelearning/webnn-samples",
+  "keywords": [
+    "deep-learning",
+    "machine-learning",
+    "neural-network",
+    "deep-neural-network",
+    "javascript",
+    "webnn"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.12.1",
+    "@babel/eslint-parser": "^7.12.1",
+    "@babel/plugin-syntax-top-level-await": "^7.12.1",
+    "eslint": "^7.5.0",
+    "eslint-config-google": "^0.14.0",
+    "http-server": "^0.12.3"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .js",
+    "start": "http-server"
+  },
+  "dependencies": {
+    "babel-eslint": "^8.0.3"
+  }
+}
