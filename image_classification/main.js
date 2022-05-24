@@ -297,10 +297,13 @@ async function main() {
       console.log('- Computing... ');
       const computeTimeArray = [];
       let medianComputeTime;
-      if (numRuns > 1) {
-        // Do warm up compute
-        await netInstance.compute(inputBuffer, outputBuffer); // computeGPUTensor
-      }
+
+      // Do warm up compute
+      let warmupstart = performance.now();
+      await netInstance.compute(inputBuffer, outputBuffer); // computeGPUTensor
+      let warmup = (performance.now() - warmupstart).toFixed(2);
+      console.log(`  warmup time: ${warmup} ms`);
+
       // if (inputBuffer instanceof tf.Tensor) {
       //   inputBuffer.dispose();
       // }
